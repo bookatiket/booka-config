@@ -1,13 +1,13 @@
 package config
 
 import (
-"fmt"
-"github.com/gojektech/heimdall/v6"
-"github.com/gojektech/heimdall/v6/httpclient"
-"github.com/sirupsen/logrus"
-"github.com/spf13/viper"
-"os"
-"time"
+	"fmt"
+	"github.com/gojektech/heimdall/v6"
+	"github.com/gojektech/heimdall/v6/httpclient"
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
+	"os"
+	"time"
 )
 
 // Setup ---
@@ -80,7 +80,13 @@ func getServerConfig() *ServerConfig {
 		TravelHost:     viper.GetString("aggregator.travel.host"),
 		TravelPort:     viper.GetString("aggregator.travel.port"),
 		TravelPath:     viper.GetString("aggregator.travel.path"),
-		Port:           viper.GetString("app.port"),
+		Port:           viper.GetString("app.search.port"),
+		BookingPort:    viper.GetString("app.booking.port"),
+		BookingHost:    viper.GetString("app.booking.host"),
+		PricePort:      viper.GetString("app.price.port"),
+		PriceHost:      viper.GetString("app.price.host"),
+		AuthPort:       viper.GetString("app.auth.port"),
+		AuthHost:       viper.GetString("app.auth.host"),
 		ApiKey:         viper.GetString("api-key"),
 		SecretKey:      viper.GetString("secret-key"),
 		TickerDuration: tickerDuration,
@@ -125,6 +131,12 @@ type ServerConfig struct {
 	TravelPort     string
 	TravelPath     string
 	Port           string
+	BookingPort    string
+	BookingHost    string
+	PricePort      string
+	PriceHost      string
+	AuthPort       string
+	AuthHost       string
 	ApiKey         string
 	SecretKey      string
 	TickerDuration time.Duration
@@ -147,4 +159,3 @@ func (s *StdFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 	log := fmt.Sprintf(format, entry.Level, entry.Time.String(), entry.Message, entry.Data)
 	return []byte(log), nil
 }
-
