@@ -32,6 +32,21 @@ func CustomJWTMiddleware(pathsToSkipped ...string) echo.MiddlewareFunc {
 	})
 }
 
+// CheckMemberTypeMiddleware ---
+func CheckMemberTypeMiddleware(memberTypes ...string) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			mty := c.Request().Header.Get(KeyHeaderMemberType)
+			for _, t := range memberTypes {
+				if mty == t {
+					return next(c)
+				}
+			}
+			return echo.ErrUnauthorized
+		}
+	}
+}
+
 func getSkipperFunc(paths ...string) middleware.Skipper {
 	return func(ctx echo.Context) bool {
 		for _, p := range paths {
