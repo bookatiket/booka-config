@@ -2,12 +2,13 @@ package config
 
 import (
 	"fmt"
+	"os"
+	"time"
+
 	"github.com/gojektech/heimdall/v6"
 	"github.com/gojektech/heimdall/v6/httpclient"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"os"
-	"time"
 )
 
 // Setup ---
@@ -36,7 +37,7 @@ func Setup() (*Configuration, error) {
 	}
 
 	return &Configuration{
-		HttpClient: getHttpClient(),
+		HttpClient: getHTTPClient(),
 		DB:         getDBConfig(),
 		Server:     getServerConfig(),
 	}, nil
@@ -93,7 +94,7 @@ func getServerConfig() *ServerConfig {
 	}
 }
 
-func getHttpClient() heimdall.Client {
+func getHTTPClient() heimdall.Client {
 	timedOut := 10 * time.Second
 	t, err := time.ParseDuration(viper.GetString("http.timedout"))
 	if err == nil {
