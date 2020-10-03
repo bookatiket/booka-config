@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
@@ -61,8 +62,18 @@ func successHandler(c echo.Context) {
 
 	if claims, ok := parsedToken.Claims.(jwt.MapClaims); ok && parsedToken.Valid {
 		h := &c.Request().Header
-		h.Set(KeyHeaderMemberID, claims["mid"].(string))
-		h.Set(KeyHeaderMemberType, claims["mty"].(string))
+		mid, ok := claims["mid"].(float64)
+		if !ok {
+			return
+		}
+
+		mty, ok := claims["mty"].(float64)
+		if !ok {
+			return
+		}
+
+		h.Set(KeyHeaderMemberID, strconv.Itoa(int(mid)))
+		h.Set(KeyHeaderMemberType, strconv.Itoa(int(mty)))
 	}
 	return
 }
