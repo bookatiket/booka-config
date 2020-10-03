@@ -18,16 +18,28 @@ const (
 )
 
 // CustomJWTMiddleware returns echo middleware jwt with config
-func CustomJWTMiddleware() echo.MiddlewareFunc {
+func CustomJWTMiddleware(pathsToSkipped ...string) echo.MiddlewareFunc {
 	secret := viper.GetString("secret")
 	return middleware.JWTWithConfig(middleware.JWTConfig{
 		SigningKey:     []byte(secret),
 		SigningMethod:  "HS256",
 		SuccessHandler: successHandler,
+		Skipper:        getSkipperFunc(pathsToSkipped...),
 		ErrorHandler: func(err error) error {
 			return echo.ErrUnauthorized
 		},
 	})
+}
+
+func getSkipperFunc(paths ...string) middleware.Skipper {
+	return func(ctx echo.Context) bool {
+		for _, p := range paths {
+			if strings.Contains(ctx.Request().RequestURI, p) {
+				return true
+			}
+		}
+		return false
+	}
 }
 
 func successHandler(c echo.Context) {
