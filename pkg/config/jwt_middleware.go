@@ -61,7 +61,7 @@ func successHandler(c echo.Context) {
 
 	if claims, ok := parsedToken.Claims.(jwt.MapClaims); ok && parsedToken.Valid {
 		h := &c.Request().Header
-		h.Set(KeyHeaderMemberID, claims["unm"].(string))
+		h.Set(KeyHeaderMemberID, claims["mid"].(string))
 		h.Set(KeyHeaderMemberType, claims["mty"].(string))
 	}
 	return
