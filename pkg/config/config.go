@@ -95,7 +95,7 @@ func getServerConfig() *ServerConfig {
 }
 
 func getHTTPClient() heimdall.Client {
-	timedOut := 10 * time.Second
+	timedOut := 20 * time.Second
 	t, err := time.ParseDuration(viper.GetString("http.timedout"))
 	if err == nil {
 		timedOut = t
@@ -113,6 +113,7 @@ func getDBConfig() *DBConfig {
 	}
 }
 
+//DBConfig - struct for database configuration
 type DBConfig struct {
 	Port     string
 	Host     string
@@ -121,6 +122,7 @@ type DBConfig struct {
 	Schema   string
 }
 
+//ServerConfig - struct for server configuration
 type ServerConfig struct {
 	AirlineHost    string
 	AirlinePort    string
@@ -138,23 +140,27 @@ type ServerConfig struct {
 	PriceHost      string
 	AuthPort       string
 	AuthHost       string
-	ApiKey         string
+	APIKey         string
 	SecretKey      string
 	TickerDuration time.Duration
 }
 
+//GetTickerDuration - function to get ticker time
 func (t *ServerConfig) GetTickerDuration() time.Duration {
 	return t.TickerDuration
 }
 
+//Configuration - struct for main configuration
 type Configuration struct {
-	HttpClient heimdall.Client
+	HTTPClient heimdall.Client
 	DB         *DBConfig
 	Server     *ServerConfig
 }
 
+//StdFormatter - standard log formatter
 type StdFormatter struct{}
 
+//Format - function for formatting log
 func (s *StdFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 	format := "%s - - [%s] \"%s\" %s\n"
 	log := fmt.Sprintf(format, entry.Level, entry.Time.String(), entry.Message, entry.Data)

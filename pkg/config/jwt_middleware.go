@@ -16,6 +16,15 @@ const (
 	KeyHeaderMemberType = "x-member-type"
 	// KeyHeaderMemberID ---
 	KeyHeaderMemberID = "x-member-id"
+	// KeyHeaderAgentID ---
+	KeyHeaderAgentID = "x-agent-id"
+
+	// KeyMemberTypeRegularStr ---
+	KeyMemberTypeRegularStr = "305"
+	// KeyMemberTypeAgentStr ---
+	KeyMemberTypeAgentStr = "306"
+	// KeyMemberTypeClientStr ---
+	KeyMemberTypeClientStr = "307"
 )
 
 // CustomJWTMiddleware returns echo middleware jwt with config
@@ -87,6 +96,12 @@ func successHandler(c echo.Context) {
 			return
 		}
 
+		aid, ok := claims["aid"].(float64)
+		if !ok {
+			return
+		}
+
+		h.Set(KeyHeaderAgentID, strconv.Itoa(int(aid)))
 		h.Set(KeyHeaderMemberID, strconv.Itoa(int(mid)))
 		h.Set(KeyHeaderMemberType, strconv.Itoa(int(mty)))
 	}
