@@ -37,7 +37,7 @@ func Setup() (*Configuration, error) {
 	}
 
 	return &Configuration{
-		HttpClient: getHTTPClient(),
+		HTTPClient: getHTTPClient(),
 		DB:         getDBConfig(),
 		Server:     getServerConfig(),
 	}, nil
@@ -88,7 +88,7 @@ func getServerConfig() *ServerConfig {
 		PriceHost:      viper.GetString("app.price.host"),
 		AuthPort:       viper.GetString("app.auth.port"),
 		AuthHost:       viper.GetString("app.auth.host"),
-		ApiKey:         viper.GetString("api-key"),
+		APIKey:         viper.GetString("api-key"),
 		SecretKey:      viper.GetString("secret-key"),
 		TickerDuration: tickerDuration,
 	}
