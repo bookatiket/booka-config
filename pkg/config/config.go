@@ -86,6 +86,8 @@ func getServerConfig() *ServerConfig {
 		BookingHost:    viper.GetString("app.booking.host"),
 		PricePort:      viper.GetString("app.price.port"),
 		PriceHost:      viper.GetString("app.price.host"),
+		PriceGrpcHost:  viper.GetString("app.price.grpc.host"),
+		PriceGrpcPort:  viper.GetString("app.price.grpc.port"),
 		AuthPort:       viper.GetString("app.auth.port"),
 		AuthHost:       viper.GetString("app.auth.host"),
 		APIKey:         viper.GetString("api-key"),
@@ -138,6 +140,8 @@ type ServerConfig struct {
 	BookingHost    string
 	PricePort      string
 	PriceHost      string
+	PriceGrpcHost  string
+	PriceGrpcPort  string
 	AuthPort       string
 	AuthHost       string
 	APIKey         string
